@@ -1,11 +1,11 @@
 package org.example;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
-@Service
-public class Bean3 {
+@Repository
+public class Bean4 {
 
-    public Bean3() {
-        System.out.println("Bean2 constructor");
+    public Bean4() {
+        System.out.println("Bean4 constructor");
     }
 }

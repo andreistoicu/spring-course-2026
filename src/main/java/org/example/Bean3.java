@@ -1,8 +1,11 @@
 package org.example;
 
-public class Bean2 {
+import org.springframework.stereotype.Service;
 
-    public Bean2() {
-        System.out.println("Bean2 constructor");
+@Service
+public class Bean3 {
+
+    public Bean3() {
+        System.out.println("Bean3 constructor");
     }
 }
