@@ -10,6 +10,7 @@ import javax.annotation.PostConstruct;
 public class Bean9 {
 
     private Bean7 bean7;
+    private Bean11 bean11;
 
     public Bean9() {
         System.out.println("bean9 constructor");
@@ -17,14 +18,16 @@ public class Bean9 {
 
     @Autowired
     //setter injection
-    public void setBean7(Bean7 bean7) {
+    public void setBean7(Bean7 bean7, Bean11 bean11) {
         this.bean7 = bean7;
+        this.bean11 = bean11;
     }
 
     @PostConstruct
     void doSomethingElse() {
         System.out.println("bean7 doSomething was initiated ");
         bean7.doSomething();
+        bean11.doSomethingElse();
     }
 
 }

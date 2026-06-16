@@ -10,12 +10,14 @@ import javax.annotation.PostConstruct;
 public class Bean8 {
 
     private final Bean7 bean7;
+    private final Bean11 bean11;
 
     // @Autowired - nu este obligatoriu, dar de preferat pentru a fi vizibil
     @Autowired
     //Constructor injection
-    public Bean8(Bean7 bean7) {
+    public Bean8(Bean7 bean7, Bean11 bean11) {
         this.bean7 = bean7;
+        this.bean11 = bean11;
         System.out.println("bean8 constructor");
     }
 
@@ -23,6 +25,7 @@ public class Bean8 {
     void init(){
         System.out.println("Bean8 init() bean7 doSomething was initiated");
         bean7.doSomething();
+        bean11.doSomethingElse();
     }
 
 }
