@@ -6,10 +6,10 @@ import org.springframework.context.annotation.*;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-@Configuration
-@ComponentScan(basePackages ="org.example")
+//@Configuration
+//@ComponentScan(basePackages ="org.example")
 //@ComponentScan(basePackages ={"org.example" , "org.not_visible"})
-@PropertySource("classpath:application.properties")
+//@PropertySource("classpath:application.properties")
 @ImportResource("classpath:applicationContext.xml")
 public class AppConfig {
 
