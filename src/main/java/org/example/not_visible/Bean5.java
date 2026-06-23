@@ -1,4 +1,4 @@
-package org.not_visible;
+package org.example.not_visible;
 
 import org.springframework.stereotype.Component;
 

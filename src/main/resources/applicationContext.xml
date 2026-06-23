@@ -11,6 +11,6 @@
     <context:component-scan base-package="org.example"/>
 
     <!--Define additional bean here-->
-    <bean id="bean6" class="org.example.Bean6"/>
+    <bean id="bean6" class="org.example.others.Bean6"/>
 
 </beans>

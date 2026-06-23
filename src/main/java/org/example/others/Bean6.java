@@ -1,4 +1,4 @@
-package org.example;
+package org.example.others;
 
 public class Bean6 {
     public Bean6() {

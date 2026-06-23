@@ -1,6 +1,4 @@
-package org.example;
-
-import org.springframework.stereotype.Service;
+package org.example.others;
 
 //@Service
 public class NoBean {
