@@ -15,3 +15,29 @@
 
 3.Create SpringBean11 and print a message inside the constructor, 
 **with scope prototype** and inject into Bean8 And Bean9
+
+
+**HTML**
+
+Create a HTML document that includes:
+A title "My Webpage It School"
+A heading (h1) with the text "Welcome Timisoara"
+A paragraph with the text "This is my first HTML page. I'm learning how to create web pages using HTML."
+
+Create a HTML document that includes:
+first html - hobbies.html
+- a heading(h2) with the text "My Favorite Hobbies"
+- an unordered list of your three favorite hobbies
+
+second html
+- a heading(h2) with the text "Useful Links"
+- 3 hiperlinks to your favorite websites. Use descriptive text for the links.
+
+3rd html
+- a heading(h3) with the text "My favorite animal"
+- an image of your favorite animal. Use the alt attribute to provide alternative text for the image.
+
+4rd html
+- a heading(h1) with the text "My daily routine"
+- an ordered list with at least 3 items representing the daily routine.
+- Within one of the list items, include a nested unordered list with sub-tasks or activities.
