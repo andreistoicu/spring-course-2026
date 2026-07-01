@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet("/hello")
+@WebServlet("/submit")
 public class Servlet extends HttpServlet {
 
     @Override
@@ -23,6 +23,16 @@ public class Servlet extends HttpServlet {
         out.println("<html><body>");
         out.println("<h1>Hello Timisoara</h1>");
         out.println("</body></html>");
+    }
+
+    protected void doPost(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+        out.println("""
+                <html><body>
+                <h1>Success Message</h1>
+                </body></html>
+                """);
     }
 
     @Override
