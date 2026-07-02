@@ -2,15 +2,13 @@ package org.example.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class MyController {
 
-    @RequestMapping(value="/users/{userId}", method=RequestMethod.GET)
+    //@RequestMapping(value="/users/{userId}", method=RequestMethod.GET)
+    @GetMapping("/users/{userId}")
     public String getUser(@PathVariable String userId, Model model){
         System.out.println("getUser: "  +  userId);
         model.addAttribute("userId", userId);
@@ -18,7 +16,8 @@ public class MyController {
         return "users";
     }
 
-    @RequestMapping(value="/submitCredit", method=RequestMethod.POST)
+    //@RequestMapping(value="/submitCredit", method=RequestMethod.POST)
+    @PostMapping("/submitCredit")
     public String submitForm(@RequestParam("name") String name,
                              @RequestParam("email") String email,
                              Model model){
