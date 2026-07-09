@@ -41,3 +41,7 @@ second html
 - a heading(h1) with the text "My daily routine"
 - an ordered list with at least 3 items representing the daily routine.
 - Within one of the list items, include a nested unordered list with sub-tasks or activities.
+
+DB1. Save a Book entity with columns for id, version, title, price and embeddable Author (name, age) in a database.
+
+DB2. Update and findAll on the Book entity (title , price , version)

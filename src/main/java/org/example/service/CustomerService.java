@@ -18,6 +18,7 @@ public class CustomerService {
 
     @Transactional
     public void saveCustomer(Customer customer){
+        //cod suplimentar daca este necesar
         customerRepository.save(customer);
     }
 
