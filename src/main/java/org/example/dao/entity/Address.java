@@ -1,4 +1,4 @@
-package org.example.dto_model;
+package org.example.dao.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

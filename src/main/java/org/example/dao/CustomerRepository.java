@@ -2,7 +2,7 @@ package org.example.dao;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import org.example.dto_model.Customer;
+import org.example.dao.entity.Customer;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package org.example.dto_model;
+package org.example.dao.entity;
 
 import jakarta.persistence.*;
 
@@ -10,6 +10,8 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // este recomandat sa utilizam aceasta adnotare insa nu oblogatoriu
+    // daca numele campului este identic cu coloana din DB
     @Column(name = "name", nullable = false, length = 50)
     private String name;
 

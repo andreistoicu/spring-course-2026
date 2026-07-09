@@ -1,7 +1,7 @@
 package org.example.controller;
 
 import jakarta.annotation.PostConstruct;
-import org.example.dto_model.Customer;
+import org.example.dao.entity.Customer;
 import org.example.service.CustomerService;
 import org.springframework.stereotype.Controller;
 

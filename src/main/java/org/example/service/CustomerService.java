@@ -2,7 +2,7 @@ package org.example.service;
 
 import jakarta.transaction.Transactional;
 import org.example.dao.CustomerRepository;
-import org.example.dto_model.Customer;
+import org.example.dao.entity.Customer;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
