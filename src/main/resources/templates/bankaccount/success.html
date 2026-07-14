@@ -4,11 +4,13 @@
         <title>My Success Webpage</title>
     </head>
     <body>
-        <h1>Success</h1>
+        <h1>Successfully createad BankAccount</h1>
         <p>
             <span
-                    th:text="${name}"> Placeholder
+                    th:text="${bankAccount.customerName}"> Placeholder
             </span>
         </p>
+        <a th:href="@{/accounts}">Back to Accounts</a>
+
     </body>
 </html>
