@@ -7,13 +7,13 @@ import jakarta.persistence.*;
 public class Book {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Version
     private Long version;
 
-    @Column(name="title", nullable=false, length=50)
+    @Column(name="title", nullable=false)
     private String title;
 
     @Column(name="price", nullable=false)
