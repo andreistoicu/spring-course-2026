@@ -2,6 +2,7 @@ package org.example.controller;
 
 import org.example.dao.entity.BankAccount;
 import org.example.service.BankAccountService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ public class BankAccountController {
     }
 
     @GetMapping("/newBankAccount")
+    @PreAuthorize("hasRole('Admin')")
     public String bankAccountForm(Model model) {
         model.addAttribute("bankAccount", new BankAccount());
         return "bankaccount/bankAccountForm";

@@ -28,18 +28,32 @@ public class SecurityConfig {
                 .roles("USER") // assign role(s) to the user, here "USER" (Spring will prefix with "ROLE_" internally)
                 .build(); // finalize the UserDetails object
 
+        UserDetails admin = User.builder()
+                .username("admin")
+                .password(passwordEncoder().encode("pass1"))
+                .roles("ADMIN")
+                .build();
+
+        UserDetails cfo = User.builder()
+                .username("cfo")
+                .password(passwordEncoder().encode("pass2"))
+                .roles("CFO")
+                .build();
+
         // Return an InMemoryUserDetailsManager initialized with the two users above
-        return new InMemoryUserDetailsManager(user); // in-memory
+        return new InMemoryUserDetailsManager(user, admin, cfo); // in-memory
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable())) // allow H2 console iframes
+                //.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable())) // allow H2 console iframes
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/", "/error/**", "/login", "/login/**", "/h2-console", "/h2-console/**").permitAll()
                         //.requestMatchers("/accounts/**").hasRole("ADMIN")
+                        .requestMatchers("/accounts/**").hasAnyRole("CFO", "ADMIN")
+                        .requestMatchers("/newBankAccount/**").hasRole("CFO")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

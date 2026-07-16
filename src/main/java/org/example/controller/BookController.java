@@ -22,13 +22,13 @@ public class BookController {
         book1.setTitle("Count of Monte Cristo");
         book1.setPrice(89.99);
         System.out.println("Saving book: " + book1);
-        bookService.saveBook(book1);
+        //bookService.saveBook(book1);
 
         Book book2 = new Book();
         book2.setTitle("Ion");
         book2.setPrice(39.99);
         System.out.println("Saving book: " + book2);
-        bookService.saveBook(book2);
+        //bookService.saveBook(book2);
 
         List<Book> foundBooks = bookService.findAll();
 

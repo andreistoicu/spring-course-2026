@@ -2,6 +2,7 @@ package org.example.service;
 
 import org.example.dao.BankAccountRepository;
 import org.example.dao.entity.BankAccount;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,7 @@ public class BankAccountService {
         return bankAccountRepository.findById(id);
     }
 
+    @PreAuthorize("hasRole('Admin')")
     public List<BankAccount> findAll(){
         return bankAccountRepository.findAll();
     }
