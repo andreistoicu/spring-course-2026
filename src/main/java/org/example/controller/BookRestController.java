@@ -22,7 +22,8 @@ public class BookRestController {
     }
 
     @GetMapping("/{id}")
-    //public Book getBookById(@PathVariable("id") Long idBook) { ->varianta in care vrem sa folosim un nume de variabla diferit de id (ex:idBook)
+    //public Book getBookById(@PathVariable("id") Long idBook) { -> varianta in care vrem sa folosim un nume
+    // de variabla diferit de id (ex:idBook)
     public Book getBookById(@PathVariable Long id) {
         return null;
     }
