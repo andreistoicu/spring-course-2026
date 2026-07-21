@@ -4,28 +4,27 @@ import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name="author")
-public class Author {
+@Table(name="chapter")
+public class Chapter {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name="name", nullable=false)
     private String name;
 
-    private String country;
-
-    @OneToOne(mappedBy="author")
+    @ManyToOne()
+    @JoinColumn(name="book_id")
     @JsonIgnore
     private Book book;
 
-    public Author() {
+    public Chapter() {
     }
 
-    public Author(Long id, String name, String country, Book book) {
+    public Chapter(Long id, String name, Book book) {
         this.id = id;
         this.name = name;
-        this.country = country;
         this.book = book;
     }
 
@@ -45,14 +44,6 @@ public class Author {
         this.name = name;
     }
 
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
     public Book getBook() {
         return book;
     }
@@ -63,10 +54,9 @@ public class Author {
 
     @Override
     public String toString() {
-        return "Author{" +
+        return "Chapter{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", country='" + country + '\'' +
                 ", book=" + book +
                 '}';
     }

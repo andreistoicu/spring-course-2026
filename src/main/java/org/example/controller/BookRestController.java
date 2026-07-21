@@ -1,7 +1,10 @@
 package org.example.controller;
 
 import org.example.dao.entity.Book;
+import org.example.exception.NoBookFoundException;
 import org.example.service.BookService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,29 +20,44 @@ public class BookRestController {
     }
 
     @GetMapping("")
-    public List<Book> getAllBooks() {
-        return null;
+    public ResponseEntity<List<Book>> getAllBooks() {
+        List<Book> books =  bookService.findAllBooks();
+
+        if(books.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(books, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     //public Book getBookById(@PathVariable("id") Long idBook) { -> varianta in care vrem sa folosim un nume
     // de variabla diferit de id (ex:idBook)
-    public Book getBookById(@PathVariable Long id) {
-        return null;
+    public ResponseEntity<Book> getBookById(@PathVariable Long id) {
+        Book book = bookService.findBookById(id);
+
+        if (book == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(book, HttpStatus.OK);
     }
 
     @PostMapping("/add")
-    public void addBook(@RequestBody Book book) {
+    public ResponseEntity<Book> addBook(@RequestBody Book book) {
         bookService.saveBook(book);
+        return new ResponseEntity<>(book, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public void updateBook(@PathVariable Long id, @RequestBody Book book) {
-
+    public Book updateBook(@PathVariable Long id, @RequestBody Book book) {
+        book.setId(id);
+        return bookService.updateBook(book);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteBookById(){
-
+    public ResponseEntity<Book> deleteBookById(@PathVariable Long id){
+        bookService.deleteBook(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
