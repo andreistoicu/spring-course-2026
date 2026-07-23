@@ -50,9 +50,11 @@ public class BookRestController {
     }
 
     @PutMapping("/{id}")
-    public Book updateBook(@PathVariable Long id, @RequestBody Book book) {
+    public ResponseEntity<Book> updateBook(@PathVariable Long id, @RequestBody Book book) {
         book.setId(id);
-        return bookService.updateBook(book);
+        bookService.updateBook(book, id);
+
+        return new ResponseEntity<>(book, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

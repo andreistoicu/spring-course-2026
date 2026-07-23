@@ -2,8 +2,11 @@ package org.example.service;
 
 import org.example.dao.BookJPARepository;
 import org.example.dao.entity.Book;
+import org.example.dao.entity.Chapter;
+import org.example.exception.NoBookFoundException;
 import org.example.exception.NoBookFoundForDeleteException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -33,8 +36,29 @@ public class BookService {
                 .orElseThrow(() -> new NoBookFoundForDeleteException("Book with id:" + id + " not found !"));
     }
 
-    public Book updateBook(Book book){
-        return bookJPARepository.save(book);
+    @Transactional
+    public Book updateBook(Book book, Long id){
+        Long bookId = book.getId();
+
+        Book existingBook = bookJPARepository.findById(bookId)
+                .orElseThrow(() -> new NoBookFoundException("Book with id:" + id + " not found !"));
+
+        existingBook.setTitle(book.getTitle());
+        existingBook.setPrice(book.getPrice());
+        existingBook.setAuthor(book.getAuthor());
+
+        existingBook.getChapters().clear();
+
+        if (book.getChapters() != null) {
+            for(Chapter chapter : book.getChapters()){
+                chapter.setBook(book);
+                existingBook.getChapters().add(chapter);
+            }
+        }
+
+        //bookJPARepository.updateBookById(id, book.getPrice(), book.getTitle());
+        bookJPARepository.save(existingBook);
+        return book;
     }
 
     public void deleteBook(Long id){
