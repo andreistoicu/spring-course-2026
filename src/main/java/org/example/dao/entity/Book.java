@@ -22,10 +22,12 @@ public class Book {
     private Double price;
 
     @OneToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name="book_id", referencedColumnName = "id")
+    @JoinColumn(name="author_id", referencedColumnName = "id")
     private Author author;
 
-    @OneToMany(mappedBy="book", cascade=CascadeType.ALL, fetch=FetchType.EAGER, orphanRemoval=true)
+    @OneToMany(mappedBy="book", cascade=CascadeType.ALL,
+            fetch=FetchType.EAGER,
+            orphanRemoval=true)
     private List<Chapter> chapter;
 
     public Book() {
@@ -80,7 +82,7 @@ public class Book {
         this.author = author;
     }
 
-    public List<Chapter> getChapter() {
+    public List<Chapter> getChapters() {
         return chapter;
     }
 

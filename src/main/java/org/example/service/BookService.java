@@ -2,7 +2,6 @@ package org.example.service;
 
 import org.example.dao.BookJPARepository;
 import org.example.dao.entity.Book;
-import org.example.exception.NoBookFoundException;
 import org.example.exception.NoBookFoundForDeleteException;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +17,10 @@ public class BookService {
     }
 
     public void saveBook(Book book){
+        //face setarea a fieacarui capitol ca sa il asigneze pe cartea creata
+        if (book.getChapters() != null) {
+            book.getChapters().forEach(ch -> ch.setBook(book));
+        }
         bookJPARepository.save(book);
     }
 
