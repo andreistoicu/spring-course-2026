@@ -1,5 +1,6 @@
 package org.example.exception;
 
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -23,6 +24,14 @@ public class BookExceptionHandler {
                 "Book not found for deeletion description");
         return new ResponseEntity(bookExceptionMessage, HttpStatus.NOT_FOUND);
     }
+
+    /*@ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity handleConstraintValidationException() {
+        BookExceptionMessage bookExceptionMessage = new BookExceptionMessage(404,
+                "test",
+                "book validation");
+        return new ResponseEntity(bookExceptionMessage, HttpStatus.LOCKED);
+    }*/
 
     /*@ExceptionHandler(Exception.class)
     public ResponseEntity handleGeneralException() {

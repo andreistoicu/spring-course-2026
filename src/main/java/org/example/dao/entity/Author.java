@@ -2,6 +2,7 @@ package org.example.dao.entity;
 
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.example.validator.ValidateAuthor;
 
 @Entity
 @Table(name="author")
@@ -11,6 +12,7 @@ public class Author {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
+    @ValidateAuthor(message="Name of the author must have 2 word")
     private String name;
 
     private String country;

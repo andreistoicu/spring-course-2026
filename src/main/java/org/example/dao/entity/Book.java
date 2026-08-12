@@ -1,6 +1,7 @@
 package org.example.dao.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 import java.util.List;
 
@@ -15,9 +16,12 @@ public class Book {
     @Version
     private Long version;
 
-    @Column(name="title", nullable=false)
+    @Column(name="title")
+    @NotBlank(message="Title must not be blank")
+    @Size(min=1, max=30, message="Title length must be between 1 and 3 chars")
     private String title;
 
+    @DecimalMax(value="1000.0", message="price must be lower than 1000 EUR")
     @Column(name="price", nullable=false)
     private Double price;
 

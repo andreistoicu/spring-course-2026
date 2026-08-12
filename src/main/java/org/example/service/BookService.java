@@ -19,6 +19,7 @@ public class BookService {
         this.bookJPARepository = bookJPARepository;
     }
 
+    @Transactional
     public void saveBook(Book book){
         //face setarea a fieacarui capitol ca sa il asigneze pe cartea creata
         if (book.getChapters() != null) {
