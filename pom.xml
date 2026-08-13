@@ -82,6 +82,13 @@
             <scope>runtime</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>6.0.1</version>
+            <scope>test</scope>
+        </dependency>
+
         <!-- in caz ca utilizam o baza de date in afara de h2 atunci adaugam dependinta de sql -->
         <!--<dependency>
             <groupId>org.postgresql</groupId>
