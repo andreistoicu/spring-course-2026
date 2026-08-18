@@ -12,8 +12,8 @@ public class ExampleTest {
 
     private Example example;
 
-    @BeforeEach //-> utilizat in general pentru setare initiala
-    //@AfterEach // -> utilizat in general pentru resetare dupa fiecare test
+    @BeforeEach //-> utilizat in general pentru setare/setUp initial/a
+    //@AfterEach // -> utilizat in general pentru resetare/clean dupa fiecare test
     void setUp() {
         example = new Example();
     }
