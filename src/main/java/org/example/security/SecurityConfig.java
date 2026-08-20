@@ -1,72 +1,71 @@
-/*
 package org.example.security;
 
+import org.example.dao.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+import java.util.List;
+
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 
-    @Bean // exposes a PasswordEncoder as a Spring bean
+    @Bean
     public PasswordEncoder passwordEncoder() { // method name becomes the bean id (passwordEncoder)
         return new BCryptPasswordEncoder(); // returns a BCryptPasswordEncoder which will hash passwords securely
     }
 
     @Bean
-    public UserDetailsService userDetailService(){
-        // Build a simple user with username "user"
-        UserDetails user = User.builder() // start building a UserDetails object using Spring's User builder
-                .username("user") // set username to "user"
-                .password(passwordEncoder().encode("pass")) // set password (hashed using the PasswordEncoder bean)
-                .roles("USER") // assign role(s) to the user, here "USER" (Spring will prefix with "ROLE_" internally)
-                .build(); // finalize the UserDetails object
-
-        UserDetails admin = User.builder()
-                .username("admin")
-                .password(passwordEncoder().encode("pass1"))
-                .roles("ADMIN")
-                .build();
-
-        UserDetails cfo = User.builder()
-                .username("cfo")
-                .password(passwordEncoder().encode("pass2"))
-                .roles("CFO")
-                .build();
-
-        // Return an InMemoryUserDetailsManager initialized with the two users above
-        return new InMemoryUserDetailsManager(user, admin, cfo); // in-memory
+    public UserDetailsService userDetailsService(UserRepository userRepository) {
+        return email -> userRepository.findByEmail(email)
+                .map(u -> new org.springframework.security.core.userdetails.User(
+                        u.getEmail(),
+                        u.getPassword(),
+                        List.of(new SimpleGrantedAuthority(u.getRole().name()))
+                ))
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-                //.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable())) // allow H2 console iframes
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/", "/error/**", "/login", "/login/**", "/h2-console", "/h2-console/**").permitAll()
-                        //.requestMatchers("/accounts/**").hasRole("ADMIN")
-                        .requestMatchers("/accounts/**").hasAnyRole("CFO", "ADMIN")
-                        .requestMatchers("/newBankAccount/**").hasRole("CFO")
+                .csrf(csrf -> csrf.disable())
+                .headers(headers -> headers.frameOptions(frame -> frame.disable()))
+                .authorizeHttpRequests(auth -> auth
+                        // Public endpoints
+                        .requestMatchers("/", "/books", "/register", "/login", "/h2-console/**").permitAll()
+                        .requestMatchers("/api/books", "/api/authors", "/api/categories").permitAll()
+
+                        // Admin-only Endpoints (Modify Books, Authors, Categories, All Loans)
+                        .requestMatchers("/api/books/admin/**", "/api/authors/admin/**", "/api/categories/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/admin/**", "/admin/**").hasRole("ADMIN")
+
+                        // User & Admin Endpoints (Borrow books, View own loans, Return books)
+                        .requestMatchers("/borrow/**", "/return/**", "/loans/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
+
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .permitAll()
-                ) //use the default login page provided by Spring Security
+                )
                 .logout(logout -> logout
+                        .logoutSuccessUrl("/login?logout")
                         .permitAll()
-                ) //Allow anyoane to logout
-        ;
+                );
 
         return http.build();
     }
 
 }
-*/
+
+
