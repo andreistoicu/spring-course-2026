@@ -6,9 +6,9 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @SpringBootApplication
 @EnableAspectJAutoProxy
-public class Main {
+public class LibraryApp {
     public static void main(String[] args) {
         System.out.println("Hello and welcome!");
-        SpringApplication.run(Main.class, args);
+        SpringApplication.run(LibraryApp.class, args);
     }
 }
