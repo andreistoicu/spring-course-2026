@@ -1,1 +1,0 @@
-curl --location --request DELETE 'http://localhost:8081/books/5'

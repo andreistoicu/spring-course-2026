@@ -1,1 +1,0 @@
-curl --location 'http://localhost:8081/books/1'
