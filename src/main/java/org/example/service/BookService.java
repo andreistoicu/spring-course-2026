@@ -15,9 +15,18 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
-    public List<Book> findAll() {
+    // Admin zone
+    public List<Book> getAllBooks() {
         return bookRepository.findAll();
     }
+
+    public List<Book> searchBooks(String query){
+        if (query != null && !query.trim().isEmpty()){
+            return bookRepository.searchByTitleOrAuthor(query);
+        }
+        return bookRepository.findAll();
+    }
+
 
     public Book findById(Long id) {
         return bookRepository.findById(id)
@@ -33,26 +42,44 @@ public class BookService {
         return bookRepository.findByTitleIgnoreCase(title);
     }
 
-    public Book save(Book book, Long authorId, Long categoryId) {
-        if(bookRepository.findById(book.getId()) == null) {
-            bookRepository.save(book);
-        } else {
-            throw new IllegalArgumentException("Book already exists");
+    public Book saveBook(Book book) {
+        if(book.getId() == null) {
+            book.setAvailableCopies(book.getTotalCopies());
         }
 
         return bookRepository.save(book);
     }
 
-    public Book update(){
-        return null;
-    }
-
-    public void delete(Long id) {
+    public void deleteBook(Long id) {
         Book book = findById(id);
         if(book == null) {
             throw new IllegalArgumentException("Book not found");
         }
 
         bookRepository.deleteById(id);
+    }
+
+    // User zone
+    public void borrowBook(Long id) {
+        Book book = bookRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Book not found with id: " + id + ""));
+
+        if(book.getAvailableCopies() > 0) {
+            book.setAvailableCopies(book.getAvailableCopies() - 1);
+            bookRepository.save(book);
+        } else {
+            throw new IllegalStateException("No available copies to borrow");
+        }
+    }
+    public void returnBook(Long id) {
+        Book book = bookRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Book not found with id: " + id + ""));
+
+        if(book.getAvailableCopies() < book.getTotalCopies()) {
+            book.setAvailableCopies(book.getAvailableCopies() + 1);
+            bookRepository.save(book);
+        } else {
+            throw new IllegalStateException("All copies are already returned");
+        }
     }
 }
