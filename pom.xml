@@ -89,6 +89,13 @@
             <optional>true</optional>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+
         <!-- in caz ca utilizam o baza de date in afara de h2 atunci adaugam dependinta de sql -->
         <!--<dependency>
             <groupId>org.postgresql</groupId>
