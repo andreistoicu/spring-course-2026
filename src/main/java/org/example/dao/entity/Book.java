@@ -23,6 +23,8 @@ public class Book {
 
     private Integer totalCopies;
 
+    private int publicationYear;
+
     private Integer availableCopies;
 
     @Version
@@ -32,7 +34,4 @@ public class Book {
     @JoinColumn(name = "author_id")
     private Author author;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
 }
