@@ -1,6 +1,7 @@
 package org.example.security;
 
 import org.example.dao.UserRepository;
+import org.example.dao.entity.User;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,50 +19,69 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    private final UserRepository userRepository;
+
+    public SecurityConfig(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @Bean
     public PasswordEncoder passwordEncoder() { // method name becomes the bean id (passwordEncoder)
         return new BCryptPasswordEncoder(); // returns a BCryptPasswordEncoder which will hash passwords securely
     }
 
     @Bean
-    public UserDetailsService userDetailsService(UserRepository userRepository) {
-        return email -> userRepository.findByEmail(email)
-                .map(u -> new org.springframework.security.core.userdetails.User(
-                        u.getEmail(),
-                        u.getPassword(),
-                        List.of(new SimpleGrantedAuthority(u.getRole().name()))
-                ))
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+    public UserDetailsService userDetailsService() {
+        return email -> {
+            // Retrieve your custom entity
+            User dbUser = userRepository.findByEmail(email);
+
+            if (dbUser == null) {
+                throw new UsernameNotFoundException("User not found with email: " + email);
+            }
+
+            // Return Spring Security's UserDetails implementation
+            return org.springframework.security.core.userdetails.User.builder()
+                    .username(dbUser.getEmail())
+                    .password(dbUser.getPassword())
+                    .roles(String.valueOf(dbUser.getRole()))
+                    .build();
+        };
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
         http
-                .csrf(csrf -> csrf.disable())
-                .headers(headers -> headers.frameOptions(frame -> frame.disable()))
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"))
                 .authorizeHttpRequests(auth -> auth
                         // Public endpoints
-                        .requestMatchers("/", "/books", "/register", "/login", "/h2-console/**").permitAll()
-                        .requestMatchers("/api/books", "/api/authors", "/api/categories").permitAll()
+                        .requestMatchers("/",
+                                "/index",
+                                "/register",
+                                "/login",
+                                "/css/**",
+                                "/js/**",
+                                "/h2-console/**")
+                        .permitAll()
 
-                        // Admin-only Endpoints (Modify Books, Authors, Categories, All Loans)
-                        .requestMatchers("/api/books/admin/**", "/api/authors/admin/**", "/api/categories/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/admin/**", "/admin/**").hasRole("ADMIN")
+                        // Admin-only endpoints
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
 
-                        // User & Admin Endpoints (Borrow books, View own loans, Return books)
-                        .requestMatchers("/borrow/**", "/return/**", "/loans/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
+                        // User-only endpoints (Admins can be barred or granted access depending on policy)
+                        .requestMatchers("/user/**").hasRole("USER")
 
+                        // All other requests require authentication
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
+                        .defaultSuccessUrl("/user/books", true)
                         .permitAll()
                 )
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/login?logout")
+                        .logoutSuccessUrl("/login")
                         .permitAll()
-                );
+                )
+                .headers(headers -> headers.frameOptions(frame -> frame.disable()));
 
         return http.build();
     }
