@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${status} + ' - ' + ${error}">Error</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light d-flex align-items-center justify-content-center vh-100">
+<div class="card shadow-lg p-5 text-center" style="max-width: 520px; width: 100%;">
+
+    <!-- Status Code Badge -->
+    <div class="mb-3">
+        <span class="badge rounded-pill bg-danger display-6 px-4 py-2" th:text="${status}">500</span>
+    </div>
+
+    <!-- Error Heading -->
+    <h2 class="fw-bold mb-2" th:text="${error}">Something Went Wrong</h2>
+
+    <!-- Error Message Detail -->
+    <p class="text-muted mb-4" th:text="${message != null and !message.isEmpty() ? message : 'An unexpected error occurred while processing your request.'}">
+        An unexpected error occurred.
+    </p>
+
+    <!-- Technical URL Context -->
+    <div class="alert alert-secondary py-2 px-3 mb-4 text-start small">
+        <strong>Requested URL:</strong> <span th:text="${path}">/url</span>
+    </div>
+
+    <!-- Action Button -->
+    <div class="d-grid gap-2">
+        <a th:href="@{/}" class="btn btn-primary btn-lg">Return to Home</a>
+    </div>
+</div>
+</body>
+</html>

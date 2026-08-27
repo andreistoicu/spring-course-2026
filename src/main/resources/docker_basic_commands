@@ -1,0 +1,18 @@
+docker run -d \
+  --name library-postgres \
+  -e POSTGRES_DB=librarydb \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_PASSWORD=postgres \
+  -p 5433:5432 \
+  postgres:16
+
+docker ps -a
+docker start library-postgres
+docker stop library-postgres
+docker rm -f library-postgres
+
+#docker-compose.yaml
+docker ps -a
+docker compose up -d
+docker compose down
+docker inspect library-postgres
