@@ -1,0 +1,21 @@
+create author curl - import in postman:
+
+curl --location 'http://localhost:8080/admin/books/save' \
+--header 'Content-Type: application/json' \
+--data '{
+    "name": "Anonim",
+    "biography":"Autor necunoscut inca de mine"
+}'
+
+create book curl - import in postman:
+
+curl --location 'http://localhost:8080/admin/books/save' \
+--header 'Content-Type: application/json' \
+--data '{
+  "title": "Stapanul Inelelor",
+  "isbn": "9780747532699",
+  "availableCopies": 5,
+  "author": {
+    "id": 1
+  }
+}'
