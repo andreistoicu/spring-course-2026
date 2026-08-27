@@ -16,7 +16,7 @@ public class AdminBookController {
         this.bookService = bookService;
     }
 
-    @GetMapping("/books/")
+    @GetMapping
     public String listBooks(Model model) {
         model.addAttribute("books", bookService.getAllBooks());
 
